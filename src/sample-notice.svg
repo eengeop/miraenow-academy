@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="3000" viewBox="0 0 720 3000" role="img" aria-labelledby="title description">
+  <title id="title">샘플 긴 안내장</title>
+  <desc id="description">실제 학원 일정이나 학생 정보가 없는 모바일 화면 검증용 이미지</desc>
+  <rect width="720" height="3000" fill="#fffdf8"/>
+  <rect width="720" height="330" fill="#dceee9"/>
+  <circle cx="632" cy="72" r="116" fill="#c3e1d8"/>
+  <circle cx="670" cy="270" r="95" fill="#b3d9cd"/>
+  <text x="58" y="80" fill="#28695f" font-family="sans-serif" font-size="21" font-weight="700">MIRAE NOW · SAMPLE</text>
+  <text x="58" y="159" fill="#193d3a" font-family="sans-serif" font-size="49" font-weight="700">샘플 안내장</text>
+  <text x="58" y="215" fill="#416863" font-family="sans-serif" font-size="24">긴 이미지 읽기 화면을 확인합니다</text>
+  <rect x="58" y="260" width="240" height="40" rx="20" fill="#ffffff"/>
+  <text x="78" y="287" fill="#28695f" font-family="sans-serif" font-size="19" font-weight="700">화면 검증용 자료</text>
+
+  <text x="58" y="402" fill="#28695f" font-family="sans-serif" font-size="18" font-weight="700">01 / INTRODUCTION</text>
+  <text x="58" y="460" fill="#193d3a" font-family="sans-serif" font-size="37" font-weight="700">첫 번째 예시 구역</text>
+  <text x="58" y="515" fill="#526a67" font-family="sans-serif" font-size="23">실제 안내장 내용이 들어갈 자리입니다.</text>
+  <text x="58" y="552" fill="#526a67" font-family="sans-serif" font-size="23">줄바꿈과 여백을 모바일에서 확인합니다.</text>
+  <rect x="58" y="600" width="604" height="340" rx="22" fill="#eff6f2"/>
+  <rect x="86" y="630" width="548" height="155" rx="14" fill="#d1e5dc"/>
+  <circle cx="182" cy="707" r="45" fill="#a6cfc0"/>
+  <rect x="264" y="666" width="296" height="20" rx="10" fill="#a6cfc0"/>
+  <rect x="264" y="708" width="221" height="20" rx="10" fill="#b7d9cc"/>
+  <text x="86" y="846" fill="#315e55" font-family="sans-serif" font-size="25" font-weight="700">예시 카드 제목</text>
+  <text x="86" y="893" fill="#526a67" font-family="sans-serif" font-size="21">날짜·장소·연락처 등은 기재하지 않았습니다.</text>
+
+  <line x1="58" y1="1015" x2="662" y2="1015" stroke="#d7e4dc" stroke-width="2"/>
+  <text x="58" y="1085" fill="#28695f" font-family="sans-serif" font-size="18" font-weight="700">02 / DETAILS</text>
+  <text x="58" y="1143" fill="#193d3a" font-family="sans-serif" font-size="37" font-weight="700">두 번째 예시 구역</text>
+  <text x="58" y="1198" fill="#526a67" font-family="sans-serif" font-size="23">긴 화면에서 자연스럽게 아래로 이동하는지</text>
+  <text x="58" y="1235" fill="#526a67" font-family="sans-serif" font-size="23">확인하기 위한 임시 구성입니다.</text>
+  <rect x="58" y="1288" width="604" height="150" rx="20" fill="#f8eee2"/>
+  <circle cx="119" cy="1363" r="30" fill="#e9caa1"/>
+  <text x="175" y="1358" fill="#614f39" font-family="sans-serif" font-size="24" font-weight="700">예시 항목 A</text>
+  <text x="175" y="1397" fill="#786958" font-family="sans-serif" font-size="20">확대했을 때 글자를 읽을 수 있습니다.</text>
+  <rect x="58" y="1458" width="604" height="150" rx="20" fill="#eef3fa"/>
+  <circle cx="119" cy="1533" r="30" fill="#bdd0e9"/>
+  <text x="175" y="1528" fill="#354f6c" font-family="sans-serif" font-size="24" font-weight="700">예시 항목 B</text>
+  <text x="175" y="1567" fill="#607187" font-family="sans-serif" font-size="20">좌우가 잘리지 않는지 확인합니다.</text>
+  <rect x="58" y="1628" width="604" height="150" rx="20" fill="#eff5e9"/>
+  <circle cx="119" cy="1703" r="30" fill="#c9dfb7"/>
+  <text x="175" y="1698" fill="#445d3d" font-family="sans-serif" font-size="24" font-weight="700">예시 항목 C</text>
+  <text x="175" y="1737" fill="#617459" font-family="sans-serif" font-size="20">이 내용은 실제 안내가 아닙니다.</text>
+
+  <line x1="58" y1="1850" x2="662" y2="1850" stroke="#d7e4dc" stroke-width="2"/>
+  <text x="58" y="1920" fill="#28695f" font-family="sans-serif" font-size="18" font-weight="700">03 / CONTINUED</text>
+  <text x="58" y="1978" fill="#193d3a" font-family="sans-serif" font-size="37" font-weight="700">세 번째 예시 구역</text>
+  <text x="58" y="2033" fill="#526a67" font-family="sans-serif" font-size="23">끝까지 스크롤할 수 있는지 확인합니다.</text>
+  <rect x="58" y="2090" width="604" height="505" rx="22" fill="#e9f3ef"/>
+  <rect x="86" y="2120" width="548" height="230" rx="14" fill="#c7e2d7"/>
+  <path d="M86 2312 L205 2217 L311 2284 L420 2164 L634 2310 L634 2350 L86 2350Z" fill="#9fcdbd"/>
+  <circle cx="524" cy="2187" r="38" fill="#f8f1d5"/>
+  <text x="86" y="2412" fill="#315e55" font-family="sans-serif" font-size="25" font-weight="700">이미지 예시 공간</text>
+  <text x="86" y="2458" fill="#526a67" font-family="sans-serif" font-size="21">최종 자료의 크기와 내용은 추후 확정합니다.</text>
+  <text x="86" y="2495" fill="#526a67" font-family="sans-serif" font-size="21">이 그림은 레이아웃 확인에만 사용됩니다.</text>
+  <rect x="86" y="2530" width="475" height="15" rx="7" fill="#bed8ce"/>
+
+  <text x="58" y="2715" fill="#193d3a" font-family="sans-serif" font-size="30" font-weight="700">여기까지 읽었습니다</text>
+  <text x="58" y="2765" fill="#526a67" font-family="sans-serif" font-size="22">실제 학생 정보와 안내장 내용은 포함되지 않습니다.</text>
+  <rect x="0" y="2870" width="720" height="130" fill="#193d3a"/>
+  <text x="58" y="2945" fill="#dceee9" font-family="sans-serif" font-size="21" font-weight="700">MIRAE NOW · SAMPLE VIEWER</text>
+</svg>

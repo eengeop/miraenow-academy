@@ -1,0 +1,7 @@
+# Only the files needed to build the fictional, static demo may be uploaded by the CLI.
+/*
+!package.json
+!package-lock.json
+!vercel.json
+!scripts
+!src

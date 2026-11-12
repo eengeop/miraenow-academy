@@ -3,8 +3,8 @@ import { access } from 'node:fs/promises';
 
 const [command, id] = process.argv.slice(2);
 
-if (!['issue', 'revoke'].includes(command) || !notices.has(id)) {
-  console.error('Usage: npm run links -- <issue|revoke> <sample-a|sample-b|sample-pdf|local-image>');
+if (!['issue', 'revoke'].includes(command) || !id) {
+  console.error('Usage: npm run links -- <issue|revoke> <sample-a|sample-b|sample-pdf|local-image|registered-id>');
   process.exitCode = 1;
 } else if (command === 'issue') {
   if (id === 'local-image') await access(notices.get(id).file);

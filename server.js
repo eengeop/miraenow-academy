@@ -3,12 +3,16 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
 import { defaultRegistryPath, notices, resolveLink } from './lib/links.js';
+import { makeSamplePdf } from './lib/sample-pdf.js';
 
 const files = new Map([
   ['/', ['src/index.html', 'text/html; charset=utf-8']],
   ['/styles.css', ['src/styles.css', 'text/css; charset=utf-8']],
   ['/app.js', ['src/app.js', 'text/javascript; charset=utf-8']],
   ['/sample-notice.svg', ['src/sample-notice.svg', 'image/svg+xml']],
+  ['/pdf-viewer.js', ['src/pdf-viewer.js', 'text/javascript; charset=utf-8']],
+  ['/vendor/pdf.mjs', ['node_modules/pdfjs-dist/legacy/build/pdf.mjs', 'text/javascript; charset=utf-8']],
+  ['/vendor/pdf.worker.mjs', ['node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs', 'text/javascript; charset=utf-8']],
 ]);
 
 export function createApp({ registryPath = defaultRegistryPath } = {}) {
@@ -33,13 +37,19 @@ export function createApp({ registryPath = defaultRegistryPath } = {}) {
           response.writeHead(404).end('Not found');
           return;
         }
+        const notice = notices.get(id);
         const assetUrl = `/n/${linkedRoute[1]}/asset`;
         const body = linkedRoute[2]
-          ? await readFile(notices.get(id))
-          : (await readFile(fileURLToPath(new URL('src/index.html', import.meta.url)), 'utf8'))
-              .replace('src="/sample-notice.svg"', `src="${assetUrl}"`);
+          ? notice.type === 'pdf' ? makeSamplePdf() : await readFile(notice.file)
+          : notice.type === 'pdf'
+            ? (await readFile(fileURLToPath(new URL('src/pdf.html', import.meta.url)), 'utf8'))
+                .replace('__PDF_ASSET__', assetUrl)
+            : (await readFile(fileURLToPath(new URL('src/index.html', import.meta.url)), 'utf8'))
+                .replace('src="/sample-notice.svg"', `src="${assetUrl}"`);
         response.writeHead(200, {
-          'Content-Type': linkedRoute[2] ? 'image/svg+xml' : 'text/html; charset=utf-8',
+          'Content-Type': linkedRoute[2]
+            ? notice.type === 'pdf' ? 'application/pdf' : 'image/svg+xml'
+            : 'text/html; charset=utf-8',
         });
         response.end(request.method === 'HEAD' ? undefined : body);
       } catch {

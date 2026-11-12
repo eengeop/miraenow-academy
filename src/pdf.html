@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>샘플 PDF 안내장 | MiraeNow Academy</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/pdf-viewer.js"></script>
+  </head>
+  <body>
+    <header class="toolbar">
+      <div class="toolbar__inner">
+        <div>
+          <p class="eyebrow">MiraeNow Academy · Prototype</p>
+          <h1>샘플 PDF 안내장</h1>
+        </div>
+      </div>
+    </header>
+    <main>
+      <p class="notice">실제 학생 정보가 없는 PDF 화면 검증용 샘플입니다.</p>
+      <p class="notice" id="pdf-status" role="status">PDF 페이지를 불러오는 중입니다.</p>
+      <div class="pdf-pages" id="pdf-pages" data-pdf-url="__PDF_ASSET__"></div>
+    </main>
+  </body>
+</html>

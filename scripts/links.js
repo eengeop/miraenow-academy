@@ -3,7 +3,7 @@ import { issueLink, revokeLink, notices } from '../lib/links.js';
 const [command, id] = process.argv.slice(2);
 
 if (!['issue', 'revoke'].includes(command) || !notices.has(id)) {
-  console.error('Usage: npm run links -- <issue|revoke> <sample-a|sample-b>');
+  console.error('Usage: npm run links -- <issue|revoke> <sample-a|sample-b|sample-pdf>');
   process.exitCode = 1;
 } else if (command === 'issue') {
   const token = await issueLink(id);

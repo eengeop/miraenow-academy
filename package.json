@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node server.js",
+    "links": "node scripts/links.js",
     "build": "node scripts/build.js",
     "test": "node --test --test-isolation=none",
     "check": "npm run build && npm test"

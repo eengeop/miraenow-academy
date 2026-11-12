@@ -26,7 +26,7 @@ export function createApp({ registryPath = defaultRegistryPath, localImageFile =
       return;
     }
 
-    const linkedRoute = pathname.match(/^\/n\/([A-Za-z0-9_-]{43})(\/asset)?$/);
+    const linkedRoute = pathname.match(/^\/n\/([A-Za-z0-9_-]{43})(?:\/(asset|download))?$/);
     if (linkedRoute) {
       response.setHeader('Cache-Control', 'private, no-store');
       response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
@@ -41,17 +41,29 @@ export function createApp({ registryPath = defaultRegistryPath, localImageFile =
         const noticeFile = id === 'local-image' ? localImageFile : notice.file;
         if (id === 'local-image') await access(noticeFile);
         const assetUrl = `/n/${linkedRoute[1]}/asset`;
+        const downloadUrl = `/n/${linkedRoute[1]}/download`;
         let body;
         let contentType = 'text/html; charset=utf-8';
         if (linkedRoute[2]) {
           body = notice.type === 'pdf' ? makeSamplePdf() : await readFile(noticeFile);
           contentType = notice.type === 'pdf' ? 'application/pdf' : notice.mime || 'image/svg+xml';
+          if (linkedRoute[2] === 'download') {
+            const extension = {
+              'application/pdf': 'pdf',
+              'image/png': 'png',
+              'image/jpeg': 'jpg',
+              'image/svg+xml': 'svg',
+            }[contentType];
+            response.setHeader('Content-Disposition', `attachment; filename="notice.${extension}"`);
+          }
         } else if (notice.type === 'pdf') {
           body = (await readFile(fileURLToPath(new URL('src/pdf.html', import.meta.url)), 'utf8'))
-            .replace('__PDF_ASSET__', assetUrl);
+            .replace('__PDF_ASSET__', assetUrl)
+            .replace('__PDF_DOWNLOAD__', downloadUrl);
         } else {
           body = (await readFile(fileURLToPath(new URL('src/index.html', import.meta.url)), 'utf8'))
-            .replace('src="/sample-notice.svg"', `src="${assetUrl}"`);
+            .replace('src="/sample-notice.svg"', `src="${assetUrl}"`)
+            .replace('href="/sample-notice.svg"', `href="${downloadUrl}"`);
           if (id === 'local-image') {
             body = body
               .replaceAll('샘플 안내장', '안내장')

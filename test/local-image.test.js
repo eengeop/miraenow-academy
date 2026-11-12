@@ -33,6 +33,7 @@ test('local PNG is only served through its active link', async () => {
   const html = await page.text();
   assert.equal(page.status, 200);
   assert.match(html, new RegExp(`/n/${token}/asset`));
+  assert.match(html, new RegExp(`/n/${token}/download`));
   assert.doesNotMatch(html, /실제 학생 정보가 없는/);
 
   const asset = await fetch(`${origin}/n/${token}/asset`);
@@ -40,9 +41,14 @@ test('local PNG is only served through its active link', async () => {
   assert.equal(asset.headers.get('content-type'), 'image/png');
   assert.equal(asset.headers.get('cache-control'), 'private, no-store');
   assert.deepEqual(Buffer.from(await asset.arrayBuffer()), image);
+  const download = await fetch(`${origin}/n/${token}/download`);
+  assert.equal(download.status, 200);
+  assert.equal(download.headers.get('content-disposition'), 'attachment; filename="notice.png"');
+  assert.deepEqual(Buffer.from(await download.arrayBuffer()), image);
   assert.equal((await fetch(`${origin}/uploads/testImage2.png`)).status, 404);
 
   await revokeLink('local-image', registryPath);
   assert.equal((await fetch(`${origin}/n/${token}`)).status, 404);
   assert.equal((await fetch(`${origin}/n/${token}/asset`)).status, 404);
+  assert.equal((await fetch(`${origin}/n/${token}/download`)).status, 404);
 });

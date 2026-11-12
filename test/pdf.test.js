@@ -29,6 +29,7 @@ test('valid link serves a two-page PDF and browser renderer', async () => {
   assert.equal(page.status, 200);
   assert.match(html, /pdf-viewer\.js/);
   assert.match(html, new RegExp(`/n/${token}/asset`));
+  assert.match(html, new RegExp(`/n/${token}/download`));
 
   const asset = await fetch(`${origin}/n/${token}/asset`);
   assert.equal(asset.status, 200);
@@ -36,10 +37,16 @@ test('valid link serves a two-page PDF and browser renderer', async () => {
   assert.equal(asset.headers.get('cache-control'), 'private, no-store');
   const bytes = new Uint8Array(await asset.arrayBuffer());
   assert.equal(new TextDecoder().decode(bytes.slice(0, 8)), '%PDF-1.4');
+  const originalBytes = Uint8Array.from(bytes);
   const loadingTask = getDocument({ data: bytes });
   const pdf = await loadingTask.promise;
   assert.equal(pdf.numPages, 2);
   await loadingTask.destroy();
+
+  const download = await fetch(`${origin}/n/${token}/download`);
+  assert.equal(download.status, 200);
+  assert.equal(download.headers.get('content-disposition'), 'attachment; filename="notice.pdf"');
+  assert.deepEqual(new Uint8Array(await download.arrayBuffer()), originalBytes);
 
   assert.equal((await fetch(`${origin}/pdf-viewer.js`, { method: 'HEAD' })).status, 200);
   assert.equal((await fetch(`${origin}/vendor/pdf.mjs`, { method: 'HEAD' })).status, 200);
@@ -51,4 +58,5 @@ test('revoked PDF link exposes neither page nor document', async () => {
   await revokeLink('sample-pdf', registryPath);
   assert.equal((await fetch(`${origin}/n/${token}`)).status, 404);
   assert.equal((await fetch(`${origin}/n/${token}/asset`)).status, 404);
+  assert.equal((await fetch(`${origin}/n/${token}/download`)).status, 404);
 });

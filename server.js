@@ -26,7 +26,7 @@ export function createApp({ registryPath = defaultRegistryPath, localImageFile =
       return;
     }
 
-    const linkedRoute = pathname.match(/^\/n\/([A-Za-z0-9_-]{43})(\/asset)?$/);
+    const linkedRoute = pathname.match(/^\/n\/([A-Za-z0-9_-]{43})(?:\/(asset|download))?$/);
     if (linkedRoute) {
       response.setHeader('Cache-Control', 'private, no-store');
       response.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
@@ -41,20 +41,33 @@ export function createApp({ registryPath = defaultRegistryPath, localImageFile =
         const noticeFile = id === 'local-image' ? localImageFile : notice.file;
         if (id === 'local-image') await access(noticeFile);
         const assetUrl = `/n/${linkedRoute[1]}/asset`;
+        const downloadUrl = `/n/${linkedRoute[1]}/download`;
         let body;
         let contentType = 'text/html; charset=utf-8';
         if (linkedRoute[2]) {
           body = notice.type === 'pdf' ? makeSamplePdf() : await readFile(noticeFile);
           contentType = notice.type === 'pdf' ? 'application/pdf' : notice.mime || 'image/svg+xml';
+          if (linkedRoute[2] === 'download') {
+            const extension = {
+              'application/pdf': 'pdf',
+              'image/png': 'png',
+              'image/jpeg': 'jpg',
+              'image/svg+xml': 'svg',
+            }[contentType];
+            response.setHeader('Content-Disposition', `attachment; filename="notice.${extension}"`);
+          }
         } else if (notice.type === 'pdf') {
           body = (await readFile(fileURLToPath(new URL('src/pdf.html', import.meta.url)), 'utf8'))
-            .replace('__PDF_ASSET__', assetUrl);
+            .replace('__PDF_ASSET__', assetUrl)
+            .replace('__PDF_DOWNLOAD__', downloadUrl);
         } else {
           body = (await readFile(fileURLToPath(new URL('src/index.html', import.meta.url)), 'utf8'))
-            .replace('src="/sample-notice.svg"', `src="${assetUrl}"`);
+            .replace('src="/sample-notice.svg"', `src="${assetUrl}"`)
+            .replace('href="/sample-notice.svg"', `href="${downloadUrl}"`);
           if (id === 'local-image') {
             body = body
               .replaceAll('샘플 안내장', '안내장')
+              .replace('SVG 저장', 'PNG 저장')
               .replace('실제 학생 정보가 없는 화면 검증용 샘플입니다.', '안내장을 위아래로 스크롤해 읽으세요.')
               .replace('제목과 여러 개의 예시 구역이 세로로 이어진 긴 이미지', '긴 이미지')
               .replace(/\s+width="720"\s+height="3000"/, '');

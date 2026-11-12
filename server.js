@@ -67,6 +67,7 @@ export function createApp({ registryPath = defaultRegistryPath, localImageFile =
           if (id === 'local-image') {
             body = body
               .replaceAll('샘플 안내장', '안내장')
+              .replace('SVG 저장', 'PNG 저장')
               .replace('실제 학생 정보가 없는 화면 검증용 샘플입니다.', '안내장을 위아래로 스크롤해 읽으세요.')
               .replace('제목과 여러 개의 예시 구역이 세로로 이어진 긴 이미지', '긴 이미지')
               .replace(/\s+width="720"\s+height="3000"/, '');

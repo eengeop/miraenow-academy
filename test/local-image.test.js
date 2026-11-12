@@ -34,6 +34,7 @@ test('local PNG is only served through its active link', async () => {
   assert.equal(page.status, 200);
   assert.match(html, new RegExp(`/n/${token}/asset`));
   assert.match(html, new RegExp(`/n/${token}/download`));
+  assert.match(html, /PNG 저장/);
   assert.doesNotMatch(html, /실제 학생 정보가 없는/);
 
   const asset = await fetch(`${origin}/n/${token}/asset`);

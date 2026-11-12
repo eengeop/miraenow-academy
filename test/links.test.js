@@ -36,7 +36,9 @@ test('two links serve only their own server-held sample image', async () => {
     assert.equal(page.status, 200);
     assert.equal(page.headers.get('referrer-policy'), 'no-referrer');
     assert.equal(page.headers.get('cache-control'), 'private, no-store');
-    assert.match(await page.text(), new RegExp(`/n/${token}/asset`));
+    const html = await page.text();
+    assert.match(html, new RegExp(`/n/${token}/asset`));
+    assert.match(html, /SVG 저장/);
 
     const image = await fetch(`${origin}/n/${token}/asset`);
     const svg = await image.text();

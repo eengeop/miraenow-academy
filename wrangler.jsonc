@@ -1,0 +1,28 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "miraenow-notices-demo",
+  "main": "cloudflare/worker.js",
+  "compatibility_date": "2026-11-13",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./cloudflare/dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/n/*"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "miraenow-notices-demo",
+      "database_id": "fd94f2ed-7b2e-4be5-8b24-71a5530d40bb"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "NOTICES",
+      "bucket_name": "miraenow-notices-demo"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 * * * *"]
+  }
+}

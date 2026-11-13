@@ -9,6 +9,8 @@
     "notices": "node scripts/notices.js",
     "build": "node scripts/build.js",
     "build:cloudflare": "node scripts/build-cloudflare.js",
+    "prepare:cloudflare-demo": "node scripts/prepare-cloudflare-demo.js",
+    "verify:cloudflare-demo": "node scripts/verify-cloudflare-demo.js",
     "test": "node --test --test-isolation=none",
     "check": "npm run build && npm run build:cloudflare && npm test"
   },
@@ -17,5 +19,9 @@
   },
   "dependencies": {
     "pdfjs-dist": "6.5.438"
+  },
+  "devDependencies": {
+    "@napi-rs/canvas": "^1.1.1",
+    "wrangler": "^4.161.0"
   }
 }

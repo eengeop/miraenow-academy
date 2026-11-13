@@ -4,6 +4,9 @@
   "main": "cloudflare/worker.js",
   "compatibility_date": "2026-11-13",
   "workers_dev": true,
+  "observability": {
+    "enabled": false
+  },
   "assets": {
     "directory": "./cloudflare/dist",
     "binding": "ASSETS",

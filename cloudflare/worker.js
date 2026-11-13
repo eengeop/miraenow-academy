@@ -1,4 +1,5 @@
 import { resolveLink } from './link-store.js';
+import { purgeExpiredNotices } from './retention.js';
 
 const extensionByMime = {
   'image/png': 'png',
@@ -73,5 +74,8 @@ export async function handleRequest(request, env, now = Date.now()) {
 export default {
   fetch(request, env) {
     return handleRequest(request, env);
+  },
+  scheduled(event, env, context) {
+    context.waitUntil(purgeExpiredNotices(env.DB, env.NOTICES, event.scheduledTime));
   },
 };

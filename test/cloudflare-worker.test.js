@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { hashToken } from '../cloudflare/link-store.js';
-import { handleRequest } from '../cloudflare/worker.js';
+import worker, { handleRequest } from '../cloudflare/worker.js';
 
 const now = Date.UTC(2026, 0, 1);
 const token = 'A'.repeat(43);
@@ -47,6 +47,12 @@ test('Worker serves only the D1-authorized R2 object and preserves its file type
   const head = await handleRequest(request(`/n/${token}/asset`, 'HEAD'), env, now);
   assert.equal(head.status, 200);
   assert.equal(await head.text(), '');
+});
+
+test('Cloudflare fetch handler ignores its execution context when checking link expiry', async () => {
+  const { env } = await bindings();
+  const response = await worker.fetch(request(`/n/${token}/asset`), env, {});
+  assert.equal(response.status, 200);
 });
 
 test('Worker does not read R2 for unknown, revoked, or malformed links', async () => {

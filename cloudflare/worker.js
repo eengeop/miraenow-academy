@@ -41,5 +41,7 @@ export async function handleRequest(request, env, now = Date.now()) {
 }
 
 export default {
-  fetch: handleRequest,
+  fetch(request, env) {
+    return handleRequest(request, env);
+  },
 };

@@ -8,8 +8,9 @@
     "links": "node scripts/links.js",
     "notices": "node scripts/notices.js",
     "build": "node scripts/build.js",
+    "build:cloudflare": "node scripts/build-cloudflare.js",
     "test": "node --test --test-isolation=none",
-    "check": "npm run build && npm test"
+    "check": "npm run build && npm run build:cloudflare && npm test"
   },
   "engines": {
     "node": ">=24"

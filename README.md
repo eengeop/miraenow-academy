@@ -76,7 +76,7 @@ npm run links -- revoke local-image
 
 ## 30일 관리 복사본 등록
 
-안내장을 앱이 관리하게 하려면 PNG·JPG·PDF 파일을 `uploads/`에 둔 뒤 등록합니다. 파일명에도 학생 이름을 넣지 않습니다. 등록 명령은 원본을 `private/managed/`에 무작위 이름의 복사본으로 저장하고 안내장 ID와 만료 시각을 출력합니다. 최대 파일 크기는 30 MB입니다.
+안내장을 앱이 관리하게 하려면 PNG·JPG·PDF 파일을 `uploads/`에 둔 뒤 등록합니다. 파일명에도 학생 이름을 넣지 않습니다. 등록 명령은 원본을 `private/managed/`에 무작위 이름의 복사본으로 저장하고 안내장 ID와 만료 시각을 출력합니다. 동시에 Git 제외 경로 `private/originals.jsonl`에 안내장 ID, 원본 경로, 등록일, 원본 삭제 예정일을 기록합니다. 최대 파일 크기는 30 MB입니다.
 
 ```sh
 npm run notices -- register uploads/file.png
@@ -89,7 +89,9 @@ npm run links -- issue <출력된-안내장-ID>
 npm run notices -- purge
 ```
 
-`uploads/`의 사용자 원본은 등록·정리 과정에서 삭제하지 않습니다. 원본의 별도 보관·삭제는 운영자가 관리해야 합니다. 관리 복사본과 등록 기록은 Git 및 공개 `dist/`에서 제외됩니다. 실제 안내장 자료는 현재 로컬 검증용이며 인터넷 배포에는 별도의 HTTPS·접근·백업 정책이 필요합니다.
+`npm run notices -- originals`로 미삭제 원본과 30일 삭제 예정일을 확인합니다. 예정일이 되면 운영자가 `uploads/`의 해당 파일을 직접 삭제한 뒤 `npm run notices -- confirm-deleted <안내장-ID>`를 실행합니다. 파일이 남아 있으면 삭제 확인은 실패합니다. 등록은 성공했지만 원본 기록에 실패했다면 출력된 복구 명령 `npm run notices -- record <안내장-ID> uploads/file.png`를 실행합니다. 원본 경로가 출력되는 명령 결과와 `private/originals.jsonl`을 공개 PR·로그·화면 캡처에 넣지 않습니다.
+
+`uploads/`의 사용자 원본은 등록·정리 과정에서 자동 삭제하지 않습니다. 관리 복사본과 등록 기록은 Git 및 공개 `dist/`에서 제외됩니다. 실제 안내장 자료는 현재 로컬 검증용이며 인터넷 배포에는 별도의 운영 점검이 필요합니다. 발송 전에는 안내장 파일과 수신자를 대조하고, 링크의 화면·다운로드가 해당 안내장만 제공하는지 확인합니다. [실제 자료 운영 기준](docs/data-policy.md)을 참고합니다.
 
 ## 개발 원칙
 

@@ -20,11 +20,19 @@
 ## 오발송과 운영자 접근 절차
 
 - 발송 전에 안내장과 수신자를 확인한다. 오발송을 알게 되면 해당 링크를 즉시 폐기하고 올바른 수신자를 다시 확인한 뒤 새 링크를 발급한다. 잘못 받은 사람이 이미 열람하거나 다운로드한 사본은 링크 폐기로 회수할 수 없으므로 그 사실과 후속 연락 여부를 운영자가 확인한다. 원격 운영 명령과 검증 방법은 [Cloudflare 가상 안내장 데모](cloudflare-demo.md)에 기록한다.
-- Cloudflare Worker·D1·R2 관리는 계정 소유자 한 명으로 제한한다. 현재 계정의 실제 멤버·권한을 확인한 결과는 아직 아니다. 운영 전 멤버 목록, 로그인된 기기, API 토큰을 확인한다. 추가 담당자가 필요해지면 필요한 자원에만 권한을 부여하도록 기준을 다시 정한다. [Cloudflare 멤버·역할 안내](https://developers.cloudflare.com/fundamentals/manage-members/)
+- Cloudflare Worker·D1·R2 관리는 계정 소유자 한 명으로 제한한다. 2026-11-14 대시보드에서 멤버 1명(Super admin)을 확인했다. 로그인된 기기와 2단계 인증 상태는 아직 확인하지 않았다. 추가 담당자가 필요해지면 필요한 자원에만 권한을 부여하도록 기준을 다시 정한다. [Cloudflare 멤버·역할 안내](https://developers.cloudflare.com/fundamentals/manage-members/)
 
 ## 수동 원본 삭제
 
-운영자는 안내장 등록일과 원본 삭제 예정일(등록일 + 30일)을 비공개로 기록하고, 예정일에 `uploads/` 원본을 직접 삭제한 뒤 완료 여부를 확인한다. 앱의 만료 정리 작업은 `uploads/` 원본을 삭제하지 않는다. 수동 삭제를 놓치지 않도록 기록·알림 방법을 실제 자료 운영 전에 마련한다.
+로컬 등록 명령은 안내장 ID, `uploads/` 원본 경로, 등록일, 삭제 예정일(등록일 + 30일)을 Git 제외 경로 `private/originals.jsonl`에 기록한다. 운영자는 `npm run notices -- originals`로 예정일을 정기적으로 확인하고, 예정일에 원본을 직접 삭제한 뒤 `npm run notices -- confirm-deleted <안내장-ID>`로 완료를 기록한다. 파일이 남아 있으면 확인 명령은 실패한다. 앱의 만료 정리 작업은 `uploads/` 원본을 삭제하지 않는다. 이 기록은 로컬 등록에만 적용되며, Cloudflare 실제 자료 등록·알림 절차는 아직 없다.
+
+## 실제 자료 배포 전 확인
+
+- 계정 멤버 1명(Super admin)을 확인했다. 로그인된 기기·2단계 인증 상태는 추가 확인한다.
+- 계정 API 토큰 1개는 다른 R2 버킷(`tellmedog`)의 객체 쓰기 권한으로 한정되어 있고, 사용자 API 토큰은 없다. Wrangler 로그인 방식과 전역 API 키 사용 여부는 추가 확인한다. 토큰 값은 문서나 PR에 적지 않는다.
+- 데모 Worker의 Logs·Traces·Issues와 로그 내보내기 대상은 비활성/없음, 데모 R2 버킷의 Data Access Logs와 공개 도메인·개발 URL은 비활성임을 확인했다. D1 Queries 지표에는 실행한 SQL 문자열이 표시되어 안내장 ID와 토큰 해시가 포함될 수 있다. 원본 토큰과 학생 정보를 SQL 문자열에 넣지 않는다. Cloudflare 문서상 바인딩된 SQL 매개변수는 D1 Queries 지표에 수집되지 않지만, SQL 문자열은 수집된다. 지표의 보존기간과 제공자 내부 보존 범위는 추가 확인한다. [D1 지표 안내](https://developers.cloudflare.com/d1/observability/metrics-analytics/)
+- Cron 트리거의 다음 실행 시각은 표시되고, D1 Queries 지표에서 만료 조회 SQL이 최근 24시간에 21회 실행된 것으로 보인다. 다만 최근 일주일의 Cron events 목록은 비어 있다(2026-11-14 확인). 가상 만료 안내장으로 실제 R2 객체와 D1 행 삭제를 검증한다.
+- 실제 자료의 비공개 원격 등록·수신자 대조·원본 삭제 예정일 기록 절차를 마련하고, 위 확인 결과를 기록한다. 확인 전에는 실제 자료를 Cloudflare에 올리지 않는다.
 
 ## 백업에 관한 제공자 동작
 

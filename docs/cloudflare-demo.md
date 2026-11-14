@@ -4,6 +4,8 @@
 
 Cloudflare Worker `miraenow-notices-demo`는 D1 `miraenow-notices-demo`와 비공개 R2 버킷 `miraenow-notices-demo`를 사용한다. R2 버킷에 공개 도메인이나 `r2.dev` 주소를 연결하지 않았다. `wrangler.jsonc`의 정적 자산에는 가상 화면과 PDF.js만 들어간다. 실제 안내장과 학생 정보는 이 데모에 올리지 않는다.
 
+링크 토큰이 URL 경로에 있으므로 `wrangler.jsonc`에서 Worker Observability 로그를 비활성화한다. Worker 코드에도 요청 URL이나 토큰을 출력하는 로그를 두지 않는다. Cloudflare의 다른 서비스 로그·분석 설정까지 검증한 것으로 간주하지 않으며, 실제 자료 운영 전 별도로 확인한다.
+
 ## 재현 및 검증
 
 Node.js 24 이상과 Cloudflare 계정의 Wrangler 로그인이 필요하다. Windows PowerShell에서는 `npm` 대신 `npm.cmd`를 사용한다.

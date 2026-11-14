@@ -11,6 +11,8 @@
     "build:cloudflare": "node scripts/build-cloudflare.js",
     "prepare:cloudflare-demo": "node scripts/prepare-cloudflare-demo.js",
     "verify:cloudflare-demo": "node scripts/verify-cloudflare-demo.js",
+    "cloudflare:links": "node scripts/cloudflare-links.js",
+    "verify:cloudflare-links": "node scripts/verify-cloudflare-link-operation.js",
     "test": "node --test --test-isolation=none",
     "check": "npm run build && npm run build:cloudflare && npm test"
   },

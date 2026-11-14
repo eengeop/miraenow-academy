@@ -5,7 +5,18 @@ const baseUrl = process.env.CLOUDFLARE_DEMO_URL;
 if (!baseUrl) throw new Error('Set CLOUDFLARE_DEMO_URL');
 const manifest = JSON.parse(await readFile('tmp/cloudflare-demo/manifest.json', 'utf8'));
 const links = JSON.parse(await readFile('private/cloudflare-demo-links.json', 'utf8'));
-const records = manifest.map((item) => ({ ...item, path: links.find((link) => link.id === item.id)?.path }));
+let replacements = [];
+try {
+  replacements = (await readFile('private/cloudflare-issued-links.jsonl', 'utf8'))
+    .trim().split('\n').map((line) => JSON.parse(line));
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error;
+}
+const records = manifest.map((item) => ({
+  ...item,
+  path: replacements.findLast((link) => link.id === item.id)?.path
+    || links.find((link) => link.id === item.id)?.path,
+}));
 assert.equal(records.length, 3);
 
 for (const [index, record] of records.entries()) {
